@@ -2,8 +2,7 @@
 	$accept = strtolower(str_replace(' ', '', $_SERVER['HTTP_ACCEPT']));
     $accept = explode(',', $accept);
 
-    $dir = "img";
-	$dh  = opendir($dir);
+	$dh  = opendir("img");
 	$files = array();
 	while (false !== ($filename = readdir($dh))) {
 		if (!in_array($filename, array('.', '..'))) {
@@ -23,6 +22,7 @@
 					body {
 						padding: 0;
 						margin: 0;
+						background-color: black;
 					}
 
 					div.stuff {
@@ -47,9 +47,13 @@
 					$(function() {
 						setInterval(function() {
 							$.getJSON('http://www.eng.uwaterloo.ca/~englcdtv/', function(data) {
-								$('div.stuff').css('background-image', 'url(img/' + data['image'] + ')');
+								var thing = $('div.stuff');
+								thing.fadeOut(500, function() {
+									thing.css('background-image', 'url(img/' + data['image'] + ')');
+									thing.fadeIn(500);
+								});
 							});
-						}, 1 * 1000);
+						}, 20 * 1000);
 					});
 				</script>
 			</body>
